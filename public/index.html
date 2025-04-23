@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Mood Diary - Calendar View</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Color Mood Diary</h1>
+        <div id="calendar"></div>
+    </div>
+    <button id="toggleTheme">🌗 Toggle Dark Mode</button>
+
+    <div id="moodModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Set Mood for <span id="selectedDate"></span></h2>
+            <input type="color" id="modalColorPicker">
+            <textarea id="modalNote" placeholder="How do you feel today?"></textarea>
+            <button id="saveMood">Save</button>
+        </div>
+    </div>
+
+
+    <div id="monthNav">
+        <button id="prevMonth">←</button>
+        <span id="monthLabel"></span>
+        <button id="nextMonth">→</button>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>
