@@ -1,38 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Color Mood Diary - Calendar View</title>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mood Diary </title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
 </head>
-
 <body>
-    <div class="container">
-        <h1>Color Mood Diary</h1>
-        <div id="calendar"></div>
-    </div>
-    <button id="toggleTheme">🌗 Toggle Dark Mode</button>
-
-    <div id="moodModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Set Mood for <span id="selectedDate"></span></h2>
-            <input type="color" id="modalColorPicker">
-            <textarea id="modalNote" placeholder="How do you feel today?"></textarea>
-            <button id="saveMood">Save</button>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo">☺︎</div>
+        <h1>Mood Diary</h1>
+      </div>
+      <div class="nav">
+        <button class="active" data-view="calendar">📆 Calendar</button>
+        <button data-view="journal">📝 Journal</button>
+        <button data-view="insights">📊 Insights</button>
+        <button data-view="data">📤 Import / Export</button>
+        <button data-view="settings">⚙️ Settings</button>
+      </div>
+      <div class="panel">
+        <div class="row between">
+          <span class="muted">Theme</span>
+          <button class="btn" id="toggleTheme">🌗 Toggle</button>
         </div>
+      </div>
+    </aside>
+
+    <main class="content">
+      <!-- CALENDAR VIEW -->
+      <section id="view-calendar" class="view">
+        <div class="toolbar">
+          <h2 id="monthLabel">Month YYYY</h2>
+          <div class="actions">
+            <button class="btn ghost" id="todayBtn">Today</button>
+            <button class="btn" id="prevMonth">←</button>
+            <button class="btn" id="nextMonth">→</button>
+            <button class="btn primary" id="quickAdd">+ Quick Add</button>
+          </div>
+        </div>
+        <div class="calendar-wrap">
+          <div class="calendar-head">
+            <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+          </div>
+          <div id="calendar"></div>
+          <div class="legend" id="legend"></div>
+        </div>
+      </section>
+
+      <!-- JOURNAL VIEW -->
+      <section id="view-journal" class="view" style="display:none">
+        <div class="toolbar">
+          <h2>Journal</h2>
+          <div class="actions">
+            <input id="search" placeholder="Search notes or #tags" class="input" />
+          </div>
+        </div>
+        <div class="card">
+          <div class="entry-list" id="entryList"></div>
+        </div>
+      </section>
+
+      <!-- INSIGHTS VIEW -->
+      <section id="view-insights" class="view" style="display:none">
+        <div class="toolbar">
+          <h2>Insights</h2>
+          <div class="actions">
+            <select id="insightsMonth" class="input"></select>
+          </div>
+        </div>
+        <div class="charts">
+          <div class="card">
+            <h3 class="h3">Mood distribution</h3>
+            <canvas id="chartMood"></canvas>
+          </div>
+          <div class="card">
+            <h3 class="h3">Average mood score</h3>
+            <canvas id="chartScore"></canvas>
+          </div>
+        </div>
+        <div class="card" style="margin-top:14px">
+          <div id="insightFacts"></div>
+        </div>
+      </section>
+
+      <!-- DATA VIEW -->
+      <section id="view-data" class="view" style="display:none">
+        <div class="toolbar"><h2>Import / Export</h2></div>
+        <div class="card">
+          <div class="row wrap gap">
+            <button class="btn" id="exportJSON">Export JSON</button>
+            <button class="btn" id="exportCSV">Export CSV</button>
+            <input type="file" id="importJSON" accept="application/json" style="display:none" />
+            <button class="btn" id="importBtn">Import JSON</button>
+            <button class="btn danger" id="clearAll">Clear all data</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- SETTINGS VIEW -->
+      <section id="view-settings" class="view" style="display:none">
+        <div class="toolbar"><h2>Settings</h2></div>
+        <div class="card">
+          <h3 class="h3">Mood presets</h3>
+          <div class="legend" id="presetEditor"></div>
+          <p class="muted small">Click a color to change it. Presets appear in the editor and legend.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- EDIT MODAL -->
+  <div class="modal" id="moodModal">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3 class="h3">Set mood for <span id="selectedDate"></span></h3>
+        <button class="close" id="closeModal">×</button>
+      </div>
+      <div class="grid">
+        <div>
+          <label>Color</label>
+          <input type="color" id="modalColorPicker" class="input" />
+        </div>
+        <div>
+          <label>Emoji</label>
+          <select id="emojiPicker" class="input">
+            <option>😀</option><option>🙂</option><option>😐</option><option>😕</option><option>😟</option>
+            <option>😢</option><option>🤩</option><option>😤</option><option>😴</option><option>🤒</option>
+          </select>
+        </div>
+        <div>
+          <label>Score (1–5)</label>
+          <select id="scorePicker" class="input">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3" selected>3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </div>
+        <div>
+          <label>Tags</label>
+          <input id="tagInput" class="input" placeholder="#work #gym" />
+        </div>
+      </div>
+      <div class="mt10">
+        <label>Note</label>
+        <textarea id="modalNote" class="input" placeholder="How do you feel today?"></textarea>
+      </div>
+      <div class="row end mt10">
+        <button class="btn ghost" id="deleteEntry">Delete</button>
+        <button class="btn primary" id="saveMood">Save</button>
+      </div>
     </div>
+  </div>
 
-
-    <div id="monthNav">
-        <button id="prevMonth">←</button>
-        <span id="monthLabel"></span>
-        <button id="nextMonth">→</button>
-    </div>
-
-    <script src="js/script.js"></script>
+  <script src="js/script.js"></script>
 </body>
-
 </html>
