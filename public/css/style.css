@@ -407,13 +407,87 @@ canvas {
   border-radius: 12px;
 }
 
-/*THEME VARIATIONS */
+/* THEME VARIATIONS */
 .light {
   --bg: #f4f7fb;
   --fg: #0f172a;
   --muted: #64748b;
   --card: #ffffff;
   --card-2: #f1f5f9;
+  --shadow: 0 10px 22px rgba(0, 0, 0, 0.1);
+}
+
+/* Light theme specific overrides */
+.light .input {
+  background: #f8fafc;
+  border-color: rgba(0, 0, 0, 0.1);
+  color: var(--fg);
+}
+
+.light .nav button {
+  background: #f1f5f9;
+  border-color: rgba(0, 0, 0, 0.1);
+  color: var(--fg);
+}
+
+.light .nav button:hover {
+  border-color: rgba(0, 0, 0, 0.2);
+}
+
+.light .nav button.active {
+  background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+.light .sidebar .panel {
+  background: rgba(0, 0, 0, 0.03);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.light .btn {
+  background: #f1f5f9;
+  border-color: rgba(0, 0, 0, 0.1);
+  color: var(--fg);
+}
+
+.light .btn.primary {
+  background: linear-gradient(135deg, var(--accent), #5f88ff);
+  color: #ffffff;
+}
+
+.light .btn.danger {
+  background: linear-gradient(135deg, #fef2f2, #fee2e2);
+  border-color: rgba(239, 68, 68, 0.2);
+  color: #dc2626;
+}
+
+.light .day {
+  background: #f8fafc;
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.light .day:hover {
+  border-color: rgba(0, 0, 0, 0.2);
+}
+
+.light .tag {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.light .modal-card {
+  background: linear-gradient(180deg, #ffffff, #f8fafc);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.light .entry {
+  background: #f8fafc;
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.light canvas {
+  background: #f1f5f9;
+  border-color: rgba(0, 0, 0, 0.1);
 }
 
 /* RESPONSIVE DESIGN */
